@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'gpainput.dart';
+import 'chart.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  final List gpa=[];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,14 +26,14 @@ class MyApp extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Card(
-                    child: Text("Graph"),
+                    child: Chart()
                   ),
                 ),
                 Expanded(
                   flex: 2,
                   child: Container(
                     child: Card(
-                      child: GpaInput(),
+                      child: GpaInput(gpa),
                     ),
                   ),
                 )

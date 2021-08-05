@@ -3,19 +3,23 @@ import 'headingbox.dart';
 import 'newtextinputbox.dart';
 
 class GpaInput extends StatefulWidget {
+  List SemesterWiseGpa;
+  GpaInput(this.SemesterWiseGpa);
   @override
   _GpaInputState createState() => _GpaInputState();
 }
 
 class _GpaInputState extends State<GpaInput> {
-  List SemesterWiseGpa=[];
-
   List<Widget> data = [];
   int j = 1;
   int i = 0;
   num gpa = 0;
   num totalcredithours = 0;
   num totalgpa = 0;
+
+  Map AddMapToGpa(String num, String gpa) {
+    return {'SemesterNum': num, 'gpa': gpa};
+  }
 
   Map AddMapToList() {
     return {'CrediHours': '0', 'Gpa': '0'};
@@ -33,6 +37,7 @@ class _GpaInputState extends State<GpaInput> {
     }
     gpa = totalgpa / totalcredithours;
 
+
     showModalBottomSheet(
         context: context,
         builder: (_) {
@@ -46,16 +51,16 @@ class _GpaInputState extends State<GpaInput> {
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
-                  
             )),
           );
         });
-        setState(() {
-          data.clear();
-          j++;
-
-          
-        });
+    setState(() {
+      data.clear();
+      widget.SemesterWiseGpa.add(AddMapToGpa(j.toString(), gpa.toString()));
+      j++;
+      i=0;
+      print(widget.SemesterWiseGpa);
+    });
   }
 
   void Addingtxtboxtolist() {
@@ -78,7 +83,9 @@ class _GpaInputState extends State<GpaInput> {
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(border: Border.all(color: Theme.of(context).primaryColor,width: 5)),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Theme.of(context).primaryColor, width: 5)),
                 child: Text("Semester no $j",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
