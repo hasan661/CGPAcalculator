@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class NewTextInputBox extends StatefulWidget {
   var a;
   List map;
-  NewTextInputBox({this.a,required this.map});
+  NewTextInputBox({this.a, required this.map});
 
   @override
   _NewTextInputBoxState createState() => _NewTextInputBoxState();
@@ -14,10 +14,8 @@ class _NewTextInputBoxState extends State<NewTextInputBox> {
   // {
   //   print(widget.map);
   // }
-  
-  
+
   Widget build(BuildContext context) {
-    
     return Row(
       children: [
         Flexible(
@@ -38,7 +36,7 @@ class _NewTextInputBoxState extends State<NewTextInputBox> {
                 readOnly: true,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(12),
-                    hintText: "Course ${widget.a+1}",
+                    hintText: "Course ${widget.a + 1}",
                     hintStyle: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black),
                     border: OutlineInputBorder(
@@ -60,9 +58,10 @@ class _NewTextInputBoxState extends State<NewTextInputBox> {
               ),
             ),
             child: TextField(
-                onChanged: (value){
+                onChanged: (value) {
                   print(widget.a);
-                  widget.map[widget.a]['CrediHours']=value;},
+                  widget.map[widget.a]['CrediHours'] = value;
+                },
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(12),
@@ -86,21 +85,18 @@ class _NewTextInputBoxState extends State<NewTextInputBox> {
               ),
             ),
             child: TextField(
-              onChanged: (value){widget.map[widget.a]['Gpa']=value;},
+                onChanged: (value) {
+                  widget.map[widget.a]['Gpa'] = value;
+                },
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                     ))),
-                  
           ),
-          
-        
         ),
-        
       ],
     );
-
   }
 }

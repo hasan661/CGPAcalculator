@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'headingbox.dart';
 import 'newtextinputbox.dart';
+import 'chart.dart';
 
 class GpaInput extends StatefulWidget {
   List SemesterWiseGpa;
@@ -10,10 +11,7 @@ class GpaInput extends StatefulWidget {
 }
 
 class _GpaInputState extends State<GpaInput> {
-  List<Widget> data = [
-    
-
-  ];
+  List<Widget> data = [];
   int j = 1;
   int i = 0;
   num gpa = 0;
@@ -32,13 +30,13 @@ class _GpaInputState extends State<GpaInput> {
 
   void ShowGpa() {
     for (int j = 0; j < _listOfControllers.length; j++) {
-      totalcredithours =totalcredithours + (num.parse(_listOfControllers[j]['CrediHours']));
+      totalcredithours =
+          totalcredithours + (num.parse(_listOfControllers[j]['CrediHours']));
       totalgpa = totalgpa +
           (num.parse(_listOfControllers[j]['Gpa']) *
               num.parse(_listOfControllers[j]['CrediHours']));
     }
     gpa = totalgpa / totalcredithours;
-
 
     showModalBottomSheet(
         context: context,
@@ -60,13 +58,12 @@ class _GpaInputState extends State<GpaInput> {
       data.clear();
       widget.SemesterWiseGpa.add(AddMapToGpa(j.toString(), gpa.toString()));
       j++;
-      i=0;
+      i = 0;
       print(widget.SemesterWiseGpa);
-     
     });
     //  gpa = 0;
-      totalcredithours = 0;
-      totalgpa = 0;
+    totalcredithours = 0;
+    totalgpa = 0;
   }
 
   void Addingtxtboxtolist() {
@@ -83,46 +80,43 @@ class _GpaInputState extends State<GpaInput> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: double.infinity,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Theme.of(context).primaryColor, width: 5)),
-                child: Text("Semester no $j",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 30,
-                    ))),
-            HeadingBox(),
-            Container(
-              height: 190,
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return data[index];
-                },
-                itemCount: data.length,
-              ),
-            ),
-            TextButton(
-                onPressed: () {
-                  ShowGpa();
-                },
-                child: Text(
-                  "Calculate",
+        child: SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Theme.of(context).primaryColor, width: 5)),
+              child: Text("Semester no $j",
                   style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                )),
-            IconButton(onPressed: Addingtxtboxtolist, icon: Icon(Icons.add))
-          ],
-        ),
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 30,
+                  ))),
+          HeadingBox(),
+          Container(
+            height: 180,
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return data[index];
+              },
+              itemCount: data.length,
+            ),
+          ),
+          TextButton(
+              onPressed: () {
+                ShowGpa();
+              },
+              child: Text(
+                "Calculate",
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              )),
+          IconButton(onPressed: Addingtxtboxtolist, icon: Icon(Icons.add))
+        ],
       ),
-    );
+    ));
   }
 }

@@ -5,14 +5,8 @@ import 'chart.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final List gpa = [];
-
+class MyApp extends StatelessWidget {
+  final List<dynamic> gpa = [];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

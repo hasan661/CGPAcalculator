@@ -25,13 +25,12 @@ class _ChartState extends State<Chart> {
 
   List<LineSeries<ChartData, num>> getDefaultData() {
     final List<ChartData> chartData = <ChartData>[];
-    setState(() {
-      for (int h = 0; h < widget.chartdata.length; h++) {
-        chartData.add(ChartData(
-            widget.chartdata[h]['SemesterNum'], widget.chartdata[h]['gpa']));
-      }
-      ;
-    });
+
+    for (int h = 0; h < widget.chartdata.length; h++) {
+      chartData.add(ChartData(
+          widget.chartdata[h]['SemesterNum'], widget.chartdata[h]['gpa']));
+    }
+    ;
 
     return <LineSeries<ChartData, num>>[
       LineSeries<ChartData, num>(

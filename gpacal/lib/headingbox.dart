@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class HeadingBox extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return Row(
