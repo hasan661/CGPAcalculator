@@ -16,25 +16,23 @@ class _ChartState extends State<Chart> {
   Widget build(BuildContext context) {
     return SfCartesianChart(
       // backgroundColor: Colors.white,
-      
+
       series: getDefaultData(),
+
       // tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
   List<LineSeries<ChartData, num>> getDefaultData() {
-     final List<ChartData> chartData = <ChartData>[];
-  
-  
-    for (int h = 0; h < widget.chartdata.length; h++) {
-      setState(() {
-         chartData.add(ChartData(widget.chartdata[h]['SemesterNum'], widget.chartdata[h]['gpa']));
-      });
-     
-    
+    final List<ChartData> chartData = <ChartData>[];
+    setState(() {
+      for (int h = 0; h < widget.chartdata.length; h++) {
+        chartData.add(ChartData(
+            widget.chartdata[h]['SemesterNum'], widget.chartdata[h]['gpa']));
+      }
+      ;
+    });
 
-    };
-    
     return <LineSeries<ChartData, num>>[
       LineSeries<ChartData, num>(
         //  enableToolTip: isTooltipVisible,
