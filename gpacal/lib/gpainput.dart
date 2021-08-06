@@ -10,7 +10,10 @@ class GpaInput extends StatefulWidget {
 }
 
 class _GpaInputState extends State<GpaInput> {
-  List<Widget> data = [];
+  List<Widget> data = [
+    
+
+  ];
   int j = 1;
   int i = 0;
   num gpa = 0;
@@ -29,8 +32,7 @@ class _GpaInputState extends State<GpaInput> {
 
   void ShowGpa() {
     for (int j = 0; j < _listOfControllers.length; j++) {
-      totalcredithours =
-          totalcredithours + (num.parse(_listOfControllers[j]['CrediHours']));
+      totalcredithours =totalcredithours + (num.parse(_listOfControllers[j]['CrediHours']));
       totalgpa = totalgpa +
           (num.parse(_listOfControllers[j]['Gpa']) *
               num.parse(_listOfControllers[j]['CrediHours']));
@@ -60,7 +62,11 @@ class _GpaInputState extends State<GpaInput> {
       j++;
       i=0;
       print(widget.SemesterWiseGpa);
+     
     });
+    //  gpa = 0;
+      totalcredithours = 0;
+      totalgpa = 0;
   }
 
   void Addingtxtboxtolist() {
