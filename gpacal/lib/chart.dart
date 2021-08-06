@@ -6,7 +6,6 @@ import 'chartdata.dart';
 class Chart extends StatefulWidget {
   final List chartdata;
   Chart(this.chartdata);
-
   @override
   _ChartState createState() => _ChartState();
 }
@@ -24,13 +23,13 @@ class _ChartState extends State<Chart> {
   }
 
   List<LineSeries<ChartData, num>> getDefaultData() {
+    
     final List<ChartData> chartData = <ChartData>[];
 
     for (int h = 0; h < widget.chartdata.length; h++) {
       chartData.add(ChartData(
           widget.chartdata[h]['SemesterNum'], widget.chartdata[h]['gpa']));
     }
-    ;
 
     return <LineSeries<ChartData, num>>[
       LineSeries<ChartData, num>(

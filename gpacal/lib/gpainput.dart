@@ -79,44 +79,56 @@ class _GpaInputState extends State<GpaInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Theme.of(context).primaryColor, width: 5)),
-              child: Text("Semester no $j",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 30,
-                  ))),
-          HeadingBox(),
-          Container(
-            height: 180,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return data[index];
-              },
-              itemCount: data.length,
-            ),
+    return Column(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Card(child: Chart(widget.SemesterWiseGpa)),
+        ),
+        Expanded(
+          flex: 2,
+          child: Container(
+              child: SingleChildScrollView(
+                child: Column(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Theme.of(context).primaryColor, width: 5)),
+                      child: Text("Semester no $j",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 30,
+                          ))),
+                  HeadingBox(),
+                  Container(
+                    height: 200,
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return data[index];
+                      },
+                      itemCount: data.length,
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        ShowGpa();
+                      },
+                      child: Text(
+                        "Calculate",
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      )),
+                  IconButton(onPressed: Addingtxtboxtolist, icon: Icon(Icons.add))
+                ],
+                          ),
+              ),
           ),
-          TextButton(
-              onPressed: () {
-                ShowGpa();
-              },
-              child: Text(
-                "Calculate",
-                style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
-              )),
-          IconButton(onPressed: Addingtxtboxtolist, icon: Icon(Icons.add))
-        ],
-      ),
-    ));
+        ),
+      ],
+    );
   }
 }
