@@ -4,13 +4,14 @@ import 'newtextinputbox.dart';
 import 'chart.dart';
 
 class GpaInput extends StatefulWidget {
-  List SemesterWiseGpa;
+  final List SemesterWiseGpa;
   GpaInput(this.SemesterWiseGpa);
   @override
   _GpaInputState createState() => _GpaInputState();
 }
 
 class _GpaInputState extends State<GpaInput> {
+  var isEnabled=false;
   List<Widget> data = [];
   int j = 1;
   int i = 0;
@@ -81,10 +82,10 @@ class _GpaInputState extends State<GpaInput> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          flex: 1,
-          child: Card(child: Chart(widget.SemesterWiseGpa)),
-        ),
+        // Expanded(
+        //   flex: 1,
+        //   child: Card(child: Chart(widget.SemesterWiseGpa)),
+        // ),
         Expanded(
           flex: 2,
           child: Container(
@@ -111,6 +112,7 @@ class _GpaInputState extends State<GpaInput> {
                       itemCount: data.length,
                     ),
                   ),
+                  if (isEnabled)
                   TextButton(
                       onPressed: () {
                         ShowGpa();
