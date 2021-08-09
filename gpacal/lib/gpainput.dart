@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'headingbox.dart';
 import 'newtextinputbox.dart';
@@ -5,14 +7,14 @@ import 'chart.dart';
 
 class GpaInput extends StatefulWidget {
   final List SemesterWiseGpa;
-  GpaInput(this.SemesterWiseGpa);
+  final List details;
+  GpaInput(this.SemesterWiseGpa, this.details);
   @override
   _GpaInputState createState() => _GpaInputState();
 }
 
 class _GpaInputState extends State<GpaInput> {
-  var isEnabled=false;
-  List<Widget> data = [];
+  List data = [];
   int j = 1;
   int i = 0;
   num gpa = 0;
@@ -23,51 +25,60 @@ class _GpaInputState extends State<GpaInput> {
     return {'SemesterNum': num, 'gpa': gpa};
   }
 
+  final List _listOfControllers = [];
+
+  void ShowGpa() {
+    if (i == 0)
+      return;
+    else if (_listOfControllers[i - 1]['CrediHours'] != "0" &&
+        _listOfControllers[i - 1]['Gpa'] != "0" && 
+        int.parse(_listOfControllers[i - 1]['Gpa']) <=
+            int.parse(widget.details[0]["MaxGpa"]) &&
+            int.parse(_listOfControllers[i - 1]['Gpa']) 
+            >0) {
+      for (int index = 0; index < _listOfControllers.length; index++) {
+        totalcredithours =
+            totalcredithours + (num.parse(_listOfControllers[index]['CrediHours']));
+        totalgpa = totalgpa +
+            (num.parse(_listOfControllers[index]['Gpa']) *
+                num.parse(_listOfControllers[index]['CrediHours']));
+      }
+      gpa = totalgpa / totalcredithours;
+
+      showModalBottomSheet(
+          context: context,
+          builder: (_) {
+            return Container(
+              color: Theme.of(context).primaryColor,
+              height: 300,
+              child: Center(
+                  child: Text(
+                "YOUR CGPA THIS SEMESTER IS: $gpa",
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              )),
+            );
+          });
+      setState(() {
+        data.clear();
+        widget.SemesterWiseGpa.add(AddMapToGpa(j.toString(), gpa.toString()));
+        j++;
+        i = 0;
+        print(widget.SemesterWiseGpa);
+      });
+      //  gpa = 0;
+      totalcredithours = 0;
+      totalgpa = 0;
+    }
+  }
+
   Map AddMapToList() {
     return {'CrediHours': '0', 'Gpa': '0'};
   }
 
-  final List _listOfControllers = [];
-
-  void ShowGpa() {
-    for (int j = 0; j < _listOfControllers.length; j++) {
-      totalcredithours =
-          totalcredithours + (num.parse(_listOfControllers[j]['CrediHours']));
-      totalgpa = totalgpa +
-          (num.parse(_listOfControllers[j]['Gpa']) *
-              num.parse(_listOfControllers[j]['CrediHours']));
-    }
-    gpa = totalgpa / totalcredithours;
-
-    showModalBottomSheet(
-        context: context,
-        builder: (_) {
-          return Container(
-            color: Theme.of(context).primaryColor,
-            height: 300,
-            child: Center(
-                child: Text(
-              "YOUR CGPA THIS SEMESTER IS: $gpa",
-              style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            )),
-          );
-        });
-    setState(() {
-      data.clear();
-      widget.SemesterWiseGpa.add(AddMapToGpa(j.toString(), gpa.toString()));
-      j++;
-      i = 0;
-      print(widget.SemesterWiseGpa);
-    });
-    //  gpa = 0;
-    totalcredithours = 0;
-    totalgpa = 0;
-  }
-
-  void Addingtxtboxtolist() {
+  void addtolistvalidation() {
     setState(() {
       _listOfControllers.add(AddMapToList());
       data.add(NewTextInputBox(
@@ -78,19 +89,37 @@ class _GpaInputState extends State<GpaInput> {
     });
   }
 
+  void Addingtxtboxtolist() {
+    // print(_listOfControllers[i - 1]['CrediHours']);
+    if (i == 0) {
+      addtolistvalidation();
+    } else if (_listOfControllers[i - 1]['CrediHours'] != "0" &&
+        _listOfControllers[i - 1]['Gpa'] != "0" &&
+        int.parse(_listOfControllers[i - 1]['Gpa']) <=
+            int.parse(widget.details[0]["MaxGpa"]) &&
+            int.parse(_listOfControllers[i - 1]['Gpa']) 
+            >0) {
+      addtolistvalidation();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Expanded(
-        //   flex: 1,
-        //   child: Card(child: Chart(widget.SemesterWiseGpa)),
-        // ),
+        Expanded(
+          flex: 1,
+          child: Card(child: Chart(widget.SemesterWiseGpa)),
+        ),
+        // if(j>int.parse(widget.detials[0]["TotalSemesters"]))
+        
         Expanded(
           flex: 2,
           child: Container(
-              child: SingleChildScrollView(
-                child: Column(
+            child: SingleChildScrollView(
+              child:
+               j<=int.parse(widget.details[0]['TotalSemesters']) ?
+              Column(
                 children: [
                   Container(
                       decoration: BoxDecoration(
@@ -112,7 +141,7 @@ class _GpaInputState extends State<GpaInput> {
                       itemCount: data.length,
                     ),
                   ),
-                  if (isEnabled)
+                  // if (isEnabled)
                   TextButton(
                       onPressed: () {
                         ShowGpa();
@@ -124,10 +153,11 @@ class _GpaInputState extends State<GpaInput> {
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
                       )),
-                  IconButton(onPressed: Addingtxtboxtolist, icon: Icon(Icons.add))
+                  IconButton(
+                      onPressed: Addingtxtboxtolist, icon: Icon(Icons.add))
                 ],
-                          ),
-              ),
+              ):Text("Jasa"),
+            ),
           ),
         ),
       ],
