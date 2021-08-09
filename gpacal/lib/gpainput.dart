@@ -1,6 +1,7 @@
 // import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:gpacal/cgpa.dart';
 import 'headingbox.dart';
 import 'newtextinputbox.dart';
 import 'chart.dart';
@@ -8,6 +9,8 @@ import 'chart.dart';
 class GpaInput extends StatefulWidget {
   final List SemesterWiseGpa;
   final List details;
+  num totalcredithourscgpa = 0;
+  num totalgpacgpa = 0;
   GpaInput(this.SemesterWiseGpa, this.details);
   @override
   _GpaInputState createState() => _GpaInputState();
@@ -15,6 +18,8 @@ class GpaInput extends StatefulWidget {
 
 class _GpaInputState extends State<GpaInput> {
   List data = [];
+
+  
   int j = 1;
   int i = 0;
   num gpa = 0;
@@ -31,17 +36,23 @@ class _GpaInputState extends State<GpaInput> {
     if (i == 0)
       return;
     else if (_listOfControllers[i - 1]['CrediHours'] != "0" &&
-        _listOfControllers[i - 1]['Gpa'] != "0" && 
+        _listOfControllers[i - 1]['Gpa'] != "0" &&
         int.parse(_listOfControllers[i - 1]['Gpa']) <=
             int.parse(widget.details[0]["MaxGpa"]) &&
-            int.parse(_listOfControllers[i - 1]['Gpa']) 
-            >0) {
+        int.parse(_listOfControllers[i - 1]['Gpa']) > 0) {
       for (int index = 0; index < _listOfControllers.length; index++) {
-        totalcredithours =
-            totalcredithours + (num.parse(_listOfControllers[index]['CrediHours']));
+        totalcredithours = totalcredithours +
+            (num.parse(_listOfControllers[index]['CrediHours']));
         totalgpa = totalgpa +
             (num.parse(_listOfControllers[index]['Gpa']) *
                 num.parse(_listOfControllers[index]['CrediHours']));
+        print(_listOfControllers[index]['CrediHours']);
+        widget.totalcredithourscgpa = widget.totalcredithourscgpa +
+            num.parse(_listOfControllers[index]['CrediHours']);
+        widget.totalgpacgpa =
+            (widget.totalgpacgpa + (num.parse(_listOfControllers[index]['Gpa'])) *
+                num.parse(_listOfControllers[index]['CrediHours']));
+      
       }
       gpa = totalgpa / totalcredithours;
 
@@ -97,8 +108,7 @@ class _GpaInputState extends State<GpaInput> {
         _listOfControllers[i - 1]['Gpa'] != "0" &&
         int.parse(_listOfControllers[i - 1]['Gpa']) <=
             int.parse(widget.details[0]["MaxGpa"]) &&
-            int.parse(_listOfControllers[i - 1]['Gpa']) 
-            >0) {
+        int.parse(_listOfControllers[i - 1]['Gpa']) > 0) {
       addtolistvalidation();
     }
   }
@@ -112,51 +122,53 @@ class _GpaInputState extends State<GpaInput> {
           child: Card(child: Chart(widget.SemesterWiseGpa)),
         ),
         // if(j>int.parse(widget.detials[0]["TotalSemesters"]))
-        
+
         Expanded(
           flex: 2,
           child: Container(
             child: SingleChildScrollView(
-              child:
-               j<=int.parse(widget.details[0]['TotalSemesters']) ?
-              Column(
-                children: [
-                  Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Theme.of(context).primaryColor, width: 5)),
-                      child: Text("Semester no $j",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 30,
-                          ))),
-                  HeadingBox(),
-                  Container(
-                    height: 200,
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return data[index];
-                      },
-                      itemCount: data.length,
-                    ),
-                  ),
-                  // if (isEnabled)
-                  TextButton(
-                      onPressed: () {
-                        ShowGpa();
-                      },
-                      child: Text(
-                        "Calculate",
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      )),
-                  IconButton(
-                      onPressed: Addingtxtboxtolist, icon: Icon(Icons.add))
-                ],
-              ):Text("Jasa"),
+              child: j <= int.parse(widget.details[0]['TotalSemesters'])
+                  ? Column(
+                      children: [
+                        Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 5)),
+                            child: Text("Semester no $j",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 30,
+                                ))),
+                        HeadingBox(),
+                        Container(
+                          height: 200,
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return data[index];
+                            },
+                            itemCount: data.length,
+                          ),
+                        ),
+                        // if (isEnabled)
+                        TextButton(
+                            onPressed: () {
+                              ShowGpa();
+                            },
+                            child: Text(
+                              "Calculate",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            )),
+                        IconButton(
+                            onPressed: Addingtxtboxtolist,
+                            icon: Icon(Icons.add))
+                      ],
+                    )
+                  : CGPA(widget.totalgpacgpa / widget.totalcredithourscgpa),
             ),
           ),
         ),
