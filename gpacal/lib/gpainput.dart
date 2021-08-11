@@ -18,8 +18,6 @@ class GpaInput extends StatefulWidget {
 
 class _GpaInputState extends State<GpaInput> {
   List data = [];
-
-  
   int j = 1;
   int i = 0;
   num gpa = 0;
@@ -49,10 +47,9 @@ class _GpaInputState extends State<GpaInput> {
         print(_listOfControllers[index]['CrediHours']);
         widget.totalcredithourscgpa = widget.totalcredithourscgpa +
             num.parse(_listOfControllers[index]['CrediHours']);
-        widget.totalgpacgpa =
-            (widget.totalgpacgpa + (num.parse(_listOfControllers[index]['Gpa'])) *
+        widget.totalgpacgpa = (widget.totalgpacgpa +
+            (num.parse(_listOfControllers[index]['Gpa'])) *
                 num.parse(_listOfControllers[index]['CrediHours']));
-      
       }
       gpa = totalgpa / totalcredithours;
 
@@ -61,7 +58,7 @@ class _GpaInputState extends State<GpaInput> {
           builder: (_) {
             return Container(
               color: Theme.of(context).primaryColor,
-              height: 300,
+              // height: 300,
               child: Center(
                   child: Text(
                 "YOUR CGPA THIS SEMESTER IS: $gpa",
@@ -101,7 +98,6 @@ class _GpaInputState extends State<GpaInput> {
   }
 
   void Addingtxtboxtolist() {
-    // print(_listOfControllers[i - 1]['CrediHours']);
     if (i == 0) {
       addtolistvalidation();
     } else if (_listOfControllers[i - 1]['CrediHours'] != "0" &&
@@ -115,44 +111,51 @@ class _GpaInputState extends State<GpaInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Card(child: Chart(widget.SemesterWiseGpa)),
-        ),
-        // if(j>int.parse(widget.detials[0]["TotalSemesters"]))
+    return LayoutBuilder(builder: (ctx, constraints) {
+      return Column(
+        children: [
+          Card(
+            child: Container(
+              height: constraints.maxHeight * 0.4,
+              child: Chart(widget.SemesterWiseGpa),
+            ),
+          ),
 
-        Expanded(
-          flex: 2,
-          child: Container(
-            child: SingleChildScrollView(
-              child: j <= int.parse(widget.details[0]['TotalSemesters'])
-                  ? Column(
-                      children: [
-                        Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 5)),
-                            child: Text("Semester no $j",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+          // if(j>int.parse(widget.detials[0]["TotalSemesters"]))
+
+          SingleChildScrollView(
+            child: j <= int.parse(widget.details[0]['TotalSemesters'])
+                ? Column(
+                    children: [
+                      Container(
+                          height: constraints.maxHeight * 0.1,
+                          decoration: BoxDecoration(
+                              border: Border.all(
                                   color: Theme.of(context).primaryColor,
-                                  fontSize: 30,
-                                ))),
-                        HeadingBox(),
-                        Container(
-                          height: 200,
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return data[index];
-                            },
-                            itemCount: data.length,
-                          ),
+                                  width: 5)),
+                          child: Text("Semester no $j",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 30,
+                              ))),
+                      Container(
+                        height: constraints.maxHeight*0.1,
+                        child: HeadingBox(),
+                      ),
+                      Container(
+                        height: constraints.maxHeight*0.23,
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return data[index];
+                          },
+                          itemCount: data.length,
                         ),
-                        // if (isEnabled)
-                        TextButton(
+                      ),
+                      // if (isEnabled)
+                      Container(
+                        height: constraints.maxHeight*0.07,
+                        child: TextButton(
                             onPressed: () {
                               ShowGpa();
                             },
@@ -163,16 +166,19 @@ class _GpaInputState extends State<GpaInput> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20),
                             )),
-                        IconButton(
+                      ),
+                      Container(
+                        height: constraints.maxHeight*0.07,
+                        child: IconButton(
                             onPressed: Addingtxtboxtolist,
-                            icon: Icon(Icons.add))
-                      ],
-                    )
-                  : CGPA(widget.totalgpacgpa / widget.totalcredithourscgpa),
-            ),
+                            icon: Icon(Icons.add)),
+                      )
+                    ],
+                  )
+                : CGPA(widget.totalgpacgpa / widget.totalcredithourscgpa),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }

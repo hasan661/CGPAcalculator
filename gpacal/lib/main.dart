@@ -5,12 +5,34 @@ import 'gpainput.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
+
+class MyApp extends StatelessWidget {
+  
+  
+
   @override
-  _MyAppState createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    
+    return MaterialApp(
+
+        theme: ThemeData(
+          primaryColor: Color.fromRGBO(0, 0, 128, 1),
+          accentColor: Color.fromRGBO(0, 0, 128, 1),
+        ),
+        home: App());
+  }
 }
 
-class _MyAppState extends State<MyApp> {
+class App extends StatefulWidget {
+
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  final appbar=AppBar(
+              title: Text("CGPA Calculator"),
+            );
   List details = [
     {"MaxGpa": "0", "TotalSemesters": "0"}
   ];
@@ -29,23 +51,18 @@ class _MyAppState extends State<MyApp> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: Color.fromRGBO(0, 0, 128, 1),
-          accentColor: Color.fromRGBO(0, 0, 128, 1),
-        ),
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text("CGPA Calculator"),
-            ),
+    return Scaffold(
+            appBar: appbar,
             body: Container(
-                child:
-                    showpage == 1 ? GpaInput(gpa,details) 
-                    : 
-                    InfoGather(fun, details))));
+              height: (MediaQuery.of(context).size.height-appbar.preferredSize.height-MediaQuery.of(context).padding.top),
+                child: showpage == 1
+                    ? 
+                      
+                        GpaInput(gpa, details)
+                      
+                    : InfoGather(fun, details)));
   }
+
 }

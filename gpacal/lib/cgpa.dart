@@ -8,7 +8,7 @@ class CGPA extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
               color: Theme.of(context).primaryColor,
-              height: 400,
+              // height: 400,
               child: Center(
                   child: Text(
                 "YOUR CGPA THIS SEMESTER IS: $cgpa",
