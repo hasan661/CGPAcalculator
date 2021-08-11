@@ -42,12 +42,10 @@ class _AppState extends State<App> {
   final List<dynamic> gpa = [];
 
   void fun() {
-    // print(details[0]["MaxGpa"]);
     if (details[0]["MaxGpa"] != "0" && details[0]["TotalSemesters"] != "0") {
       setState(() {
         showpage = 1;
-        print(details[0]['TotalSemesters']);
-        print(details[0]['MaxGpa']);
+      
       });
     }
   }

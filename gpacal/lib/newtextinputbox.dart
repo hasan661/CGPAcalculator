@@ -60,7 +60,7 @@ class _NewTextInputBoxState extends State<NewTextInputBox> {
             ),
             child: TextField(
                 onChanged: (value) {
-                  print(widget.a);
+                  // print(widget.a);
                   widget.map[widget.a]['CrediHours'] = value;
                 },
                 keyboardType: TextInputType.number,

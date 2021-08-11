@@ -16,11 +16,10 @@ class InfoGather extends StatelessWidget {
             height: constraints.maxHeight * 0.6,
             // width: 400,
             
-            child: FittedBox(
-              child: Image.asset(
-                "images/CGPA.png",fit: BoxFit.cover,
+            child: Image.asset(
+                "images/CGPA.png"
               ),
-            ),
+            
           ),
 
           Container(

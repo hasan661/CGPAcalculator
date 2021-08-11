@@ -9,8 +9,8 @@ import 'chart.dart';
 class GpaInput extends StatefulWidget {
   final List SemesterWiseGpa;
   final List details;
-  num totalcredithourscgpa = 0;
-  num totalgpacgpa = 0;
+  // num totalcredithourscgpa = 0;
+  // num totalgpacgpa = 0;
   GpaInput(this.SemesterWiseGpa, this.details);
   @override
   _GpaInputState createState() => _GpaInputState();
@@ -23,6 +23,8 @@ class _GpaInputState extends State<GpaInput> {
   num gpa = 0;
   num totalcredithours = 0;
   num totalgpa = 0;
+  num totalcredithourscgpa = 0;
+  num totalgpacgpa = 0;
 
   Map AddMapToGpa(String num, String gpa) {
     return {'SemesterNum': num, 'gpa': gpa};
@@ -45,11 +47,11 @@ class _GpaInputState extends State<GpaInput> {
             (num.parse(_listOfControllers[index]['Gpa']) *
                 num.parse(_listOfControllers[index]['CrediHours']));
         print(_listOfControllers[index]['CrediHours']);
-        widget.totalcredithourscgpa = widget.totalcredithourscgpa +
+        totalcredithourscgpa = totalcredithourscgpa +
             num.parse(_listOfControllers[index]['CrediHours']);
-        widget.totalgpacgpa = (widget.totalgpacgpa +
+        totalgpacgpa = totalgpacgpa +
             (num.parse(_listOfControllers[index]['Gpa'])) *
-                num.parse(_listOfControllers[index]['CrediHours']));
+                num.parse(_listOfControllers[index]['CrediHours']);
       }
       gpa = totalgpa / totalcredithours;
 
@@ -74,7 +76,6 @@ class _GpaInputState extends State<GpaInput> {
         widget.SemesterWiseGpa.add(AddMapToGpa(j.toString(), gpa.toString()));
         j++;
         i = 0;
-        print(widget.SemesterWiseGpa);
       });
       //  gpa = 0;
       totalcredithours = 0;
@@ -140,11 +141,11 @@ class _GpaInputState extends State<GpaInput> {
                                 fontSize: 30,
                               ))),
                       Container(
-                        height: constraints.maxHeight*0.1,
+                        height: constraints.maxHeight * 0.1,
                         child: HeadingBox(),
                       ),
                       Container(
-                        height: constraints.maxHeight*0.23,
+                        height: constraints.maxHeight * 0.23,
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             return data[index];
@@ -154,7 +155,7 @@ class _GpaInputState extends State<GpaInput> {
                       ),
                       // if (isEnabled)
                       Container(
-                        height: constraints.maxHeight*0.07,
+                        height: constraints.maxHeight * 0.07,
                         child: TextButton(
                             onPressed: () {
                               ShowGpa();
@@ -168,14 +169,17 @@ class _GpaInputState extends State<GpaInput> {
                             )),
                       ),
                       Container(
-                        height: constraints.maxHeight*0.07,
+                        height: constraints.maxHeight * 0.07,
                         child: IconButton(
                             onPressed: Addingtxtboxtolist,
                             icon: Icon(Icons.add)),
                       )
                     ],
                   )
-                : CGPA(widget.totalgpacgpa / widget.totalcredithourscgpa),
+                : Container(
+                  height: constraints.maxHeight*0.586,
+                    child: CGPA(totalgpacgpa / totalcredithourscgpa),
+                  ),
           ),
         ],
       );
